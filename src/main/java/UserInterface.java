@@ -172,12 +172,28 @@ public class UserInterface {
         Long matricula = Long.parseLong(JOptionPane.showInputDialog("Digite a matrícula do aluno:"));
         Aluno aluno = alunoDAO.findById(matricula).orElseThrow(() -> new RuntimeException("Aluno não encontrado"));
 
+
         String novoNome = JOptionPane.showInputDialog("Novo nome:", aluno.getNome());
         aluno.setNome(novoNome);
+
+        String novoTelefone = JOptionPane.showInputDialog("Novo telefone:", aluno.getTelefone());
+        aluno.setTelefone(novoTelefone);
+
+        boolean novaMaioridade = JOptionPane.showInputDialog("Maioridade (Sim/Não):", aluno.isMaioridade() ? "Sim" : "Não").equalsIgnoreCase("Sim");
+        aluno.setMaioridade(novaMaioridade);
+
+        String novoSexo = JOptionPane.showInputDialog("Novo sexo (M/F/Outro):", aluno.getSexo());
+        aluno.setSexo(novoSexo);
+
+        String novoCursoSigla = JOptionPane.showInputDialog("Novo curso (sigla):", aluno.getCurso().getSigla());
+        Curso novoCurso = cursoDAO.findBySigla(novoCursoSigla).orElseThrow(() -> new RuntimeException("Curso não encontrado"));
+        aluno.setCurso(novoCurso);
+
 
         alunoDAO.update(aluno);
         JOptionPane.showMessageDialog(null, "Aluno atualizado com sucesso!");
     }
+
 
     private void addCurso() {
         String nome = nomeCursoField.getText();
